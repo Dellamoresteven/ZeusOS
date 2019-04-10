@@ -3,7 +3,7 @@
 #include "kernel.h"
 #include <stdint.h>
 
-#include "../libc/includerFile.h"
+#include "../libc/zeus.h"
 
 void kernel_main() {
     isr_install();
@@ -11,9 +11,8 @@ void kernel_main() {
 
     asm("int $2");
     asm("int $3");
-
-    kprint("Type something, it will go through the kernel\n"
-        "Type END to halt the CPU or PAGE to request a kmalloc()\n> ");
+    kprint("Welcome to ZeusOS type 'HELP' to see a list of commands\n");
+    kprint("\n> ");
 }
 
 void user_input(char *input) {
@@ -32,8 +31,17 @@ void user_input(char *input) {
         kprint(", physical address: ");
         kprint(phys_str);
         kprint("\n");
+    }else if(strcmp(input, "HELP") == 0){
+      kprint("\n\nPAGE\nEND\n\n");
+    }else if(strcmp(input, "") == 0){
+    }else if(strcmp(input, "LS") == 0){
+      kprint("listing directorys\n");
+    }else if(strcmp(input, "CLEAR") == 0){
+      kprint("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+    }else{
+      kprint("'");
+      kprint(input);
+      kprint("' is not a command\n");
     }
-    kprint("You said: ");
-    kprint(input);
-    kprint("\n> ");
+    kprint("> ");
 }
